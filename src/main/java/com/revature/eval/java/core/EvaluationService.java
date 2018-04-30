@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,13 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
+		
 		char[] reversed = new char[string.length()];
 		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) {
 			reversed[j] = string.charAt(i);
 		}
 		return new String(reversed);
+		
 	}
 
 	/**
@@ -30,8 +33,24 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// turns strings into acronyms
+		String acronym = "";
+		boolean isFirstChar = true;
+		
+		for(int i = 0; i < phrase.length();i++) {
+			
+			if(phrase.charAt(i) == ' ' || phrase.charAt(i) == '-') {
+				isFirstChar = true;
+				
+			}
+			
+			else if(isFirstChar) {
+				acronym = acronym + phrase.charAt(i);
+				isFirstChar = false;
+			}
+			
+		}
+		return acronym.toUpperCase();
 	}
 
 	/**
@@ -84,17 +103,27 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			// checks if all three sides are equal
+			if (sideOne == sideTwo & sideTwo == sideThree) {
+				return true;
+			}
+			
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			// Checks if at least two sides are equal
+			if(sideOne == sideTwo || sideOne == sideThree || sideTwo == sideThree) {
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			// Checks to see if all sides are different
+			if (!(this.isIsosceles())) {
+				return true;
+			}
 			return false;
 		}
 
@@ -116,8 +145,44 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		//sets string to all caps
+		String string1 = string.toUpperCase();
+		// calculates score based on letters
+		int score = 0;
+		
+		//make hashmap of score values
+		HashMap<Character, Integer> letterValues = new HashMap<Character, Integer>();
+		letterValues.put('A', 1);
+		letterValues.put('B', 3);
+		letterValues.put('C', 3);
+		letterValues.put('D', 2);
+		letterValues.put('E', 1);
+		letterValues.put('F', 4);
+		letterValues.put('G', 2);
+		letterValues.put('H', 4);
+		letterValues.put('I', 1);
+		letterValues.put('J', 8);
+		letterValues.put('K', 5);
+		letterValues.put('L', 1);
+		letterValues.put('M', 3);
+		letterValues.put('N', 1);
+		letterValues.put('O', 1);
+		letterValues.put('P', 3);
+		letterValues.put('Q', 10);
+		letterValues.put('R', 1);
+		letterValues.put('S', 1);
+		letterValues.put('T', 1);
+		letterValues.put('U', 1);
+		letterValues.put('V', 4);
+		letterValues.put('W', 4);
+		letterValues.put('X', 8);
+		letterValues.put('Y', 4);
+		letterValues.put('Z', 10);
+		for(int i = 0; i < string1.length(); i++) {
+			score = score + letterValues.get(string1.charAt(i));
+		}
+		
+		return score;
 	}
 
 	/**
@@ -152,8 +217,50 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// selects only valid numbers from string
+		String number = "";
+		
+		for(int i = 0; i < string.length();i++){
+			switch(string.charAt(i)) {
+            case '0':
+                number = number + '0';
+                break;
+            case '1':
+                number = number + '1';
+                break;
+            case '2':
+                number = number + '2';
+                break;
+            case '3':
+                number = number + '3';
+                break;    
+            case '4':
+                number = number + '4';
+                break;
+            case '5':
+                number = number + '5';
+                break;
+            case '6':
+                number = number + '6';
+                break;
+            case '7':
+                number = number + '7';
+                break;
+            case '8':
+                number = number + '8';
+                break;
+            case '9':
+                number = number + '9';
+                break;    
+        }
+		}
+		
+		if(number.length() != 10) {
+			throw new IllegalArgumentException();
+		}
+		
+		
+		return number;
 	}
 
 	/**
@@ -166,8 +273,32 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// makes a map of words
+		HashMap<String, Integer> wordCount = new HashMap<String, Integer>();
+		
+		//format input to add spaces
+		string = string.replace(',', ' ');
+		string = string.replace('\n', ' ');
+		
+		if(string.indexOf(' ') < 0) {
+			wordCount.put(string, 1);
+		}
+		else {
+			int startOfWord = 0;
+			int endOfWord = string.indexOf(' ');
+			
+			String wordInString = string.substring(startOfWord, endOfWord);
+			
+			for(String word : wordCount.keySet()) {
+				if(word.equalsIgnoreCase(wordInString)) {
+					wordCount.put(word, wordCount.get(word) + 1);
+				}
+			}
+			
+		}
+		
+		
+		return wordCount;
 	}
 
 	/**
